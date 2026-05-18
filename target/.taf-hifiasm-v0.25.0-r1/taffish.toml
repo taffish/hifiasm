@@ -1,0 +1,47 @@
+[package]
+name = "hifiasm"
+kind = "tool"
+version = "0.25.0"
+release = 1
+license = "Apache-2.0"
+main = "src/main.taf"
+
+[meta]
+domain = "bio"
+categories = ["genome-assembly", "long-read", "haplotype-resolved", "de-novo-assembly", "t2t"]
+keywords = ["hifiasm", "HiFi", "ONT", "assembly", "haplotype-resolved", "trio-binning", "Hi-C", "ultralong", "GFA", "T2T"]
+description = "Fast haplotype-resolved de novo genome assembly for PacBio HiFi reads, ONT R10 reads, Hi-C phasing, trio binning, ultralong-read integration, and telomere-to-telomere assembly modes."
+
+[repository]
+url = "https://github.com/taffish/hifiasm"
+
+[command]
+name = "taf-hifiasm"
+
+[runtime]
+pipe = true
+command_mode = true
+
+[container]
+image = "ghcr.io/taffish/hifiasm:0.25.0-r1"
+dockerfile = "docker/Dockerfile"
+build_platforms = "linux/amd64,linux/arm64"
+
+[upstream]
+name = "hifiasm"
+type = "github"
+repo = "chhylp123/hifiasm"
+homepage = "https://hifiasm.readthedocs.io/en/latest/"
+release_url = "https://github.com/chhylp123/hifiasm/releases/tag/0.25.0"
+downloads = "https://github.com/chhylp123/hifiasm/archive/refs/tags/0.25.0.tar.gz"
+version = "0.25.0"
+license = "MIT"
+citation = "Cheng et al. 2021; Cheng et al. 2022; Cheng et al. 2024"
+doi = "10.1038/s41592-020-01056-5; 10.1038/s41587-022-01261-x; 10.1038/s41592-024-02269-8"
+watch = "tags"
+
+[smoke]
+backend = "docker"
+timeout = 120
+exist = ["hifiasm", "bash"]
+test = ["hifiasm --version | grep -Fx '0.25.0-r726' >/dev/null", "hifiasm 2>&1 | grep -F 'Usage: hifiasm' >/dev/null", "ldd \"$(command -v hifiasm)\" | grep -F 'libz' >/dev/null", "mkdir -p /tmp/taf-hifiasm-smoke && cd /tmp/taf-hifiasm-smoke && printf '@r1\\nACGTACGTACGTACGTACGTACGTACGTACGTACGTACGTACGTACGTACGTACGTACGTACGT\\n+\\nFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF\\n@r2\\nCGTACGTACGTACGTACGTACGTACGTACGTACGTACGTACGTACGTACGTACGTACGTACGTA\\n+\\nFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF\\n@r3\\nGTACGTACGTACGTACGTACGTACGTACGTACGTACGTACGTACGTACGTACGTACGTACGTAC\\n+\\nFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF\\n' > reads.fq && hifiasm -o tiny -t1 -f0 reads.fq > tiny.out 2> tiny.log && test -s tiny.log && grep -F '[M::ha_analyze_count]' tiny.log >/dev/null"]

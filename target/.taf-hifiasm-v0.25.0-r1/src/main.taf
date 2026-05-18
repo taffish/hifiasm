@@ -1,0 +1,2 @@
+<taf-app:container:ghcr.io/taffish/hifiasm:0.25.0-r1>
+hifiasm ::*ARGV*::
