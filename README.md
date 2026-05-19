@@ -9,6 +9,11 @@ This app packages upstream hifiasm `0.25.0` as a single-command TAFFISH tool.
 The upstream binary reports the internal source version `0.25.0-r726` via
 `hifiasm --version`.
 
+Release `0.25.0-r2` is a help-only TAFFISH update. It keeps the upstream
+software, Dockerfile, runtime dependencies, smoke tests, and command behavior
+unchanged from `0.25.0-r1`, and refreshes the terminal `taf-hifiasm --help`
+text.
+
 ## Installation
 
 Install from the public TAFFISH Hub index:
@@ -21,7 +26,7 @@ taf install hifiasm
 Install the exact release:
 
 ```sh
-taf install hifiasm 0.25.0-r1
+taf install hifiasm 0.25.0-r2
 ```
 
 For local testing before the app is published to the public index:
@@ -154,9 +159,9 @@ dependency.
 ```text
 name: hifiasm
 command: taf-hifiasm
-version: 0.25.0-r1
+version: 0.25.0-r2
 kind: tool
-image: ghcr.io/taffish/hifiasm:0.25.0-r1
+image: ghcr.io/taffish/hifiasm:0.25.0-r2
 ```
 
 ## Container
